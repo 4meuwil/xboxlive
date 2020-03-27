@@ -1,0 +1,96 @@
+title: Xbox 
+background: var(--lovelace-background)
+icon: mdi:xbox
+path: xbox
+cards:
+  - type: picture-elements
+    image: /local/xbox/xbox.png
+    elements:
+      - type: state-label
+        entity: sensor.xbox_deuce
+        prefix: 'Status: '
+        tap_action: none
+        style:
+          top: 17%
+          left: 61.5%
+          font-size: 16px
+          color:
+      - type: state-label
+        entity: sensor.xbox_deuce_history_today_template
+        prefix: 'Today: '
+        tap_action: none
+        style:
+          top: 23%
+          left: 42.5%
+          font-size: 14px
+          color: orange
+
+      - type: state-label
+        entity: sensor.xbox_deuce_history_week_template
+        prefix: 'Week: '
+        tap_action: none
+        style: 
+          top: 23%
+          left: 77.5%
+          font-size: 14px
+          color: orange
+
+      - type: state-label
+        entity: sensor.xbox_deuce_fifa_today_template
+        prefix: 'Today: '
+        style:
+          top: 30%
+          left: 70%
+          font-size: 14px
+      - type: state-label
+        entity: sensor.xbox_deuce_fifa_week_template
+        prefix: 'Week: '
+        style:
+          top: 35%
+          left: 70%
+          font-size: 14px
+
+      - type: state-label
+        entity: sensor.xbox_deuce_fortnite_today_template
+        prefix: 'Today: '
+        style:
+          top: 47.5%
+          left: 70%
+          font-size: 14px
+      - type: state-label
+        entity: sensor.xbox_deuce_fortnite_week_template
+        prefix: 'Week: '
+        style:
+          top: 52.5%
+          left: 70%
+          font-size: 14px
+
+      - type: state-label
+        entity: sensor.xbox_deuce_seaofthieves_today_template
+        prefix: 'Today: '
+        style:
+          top: 66%
+          left: 70%
+          font-size: 14px
+      - type: state-label
+        entity: sensor.xbox_deuce_seaofthieves_week_template
+        prefix: 'Week: '
+        style:
+          top: 71%
+          left: 70%
+          font-size: 14px
+
+      - type: state-label
+        entity: sensor.xbox_deuce_youtube_today_template
+        prefix: 'Today: '
+        style:
+          top: 85%
+          left: 70%
+          font-size: 14px
+      - type: state-label
+        entity: sensor.xbox_deuce_youtube_week_template
+        prefix: 'Week: '
+        style:
+          top: 90%
+          left: 70%
+          font-size: 14px
