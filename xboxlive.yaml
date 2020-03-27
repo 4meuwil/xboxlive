@@ -1,0 +1,510 @@
+homeassistant:
+  customize:
+    sensor.xbox_jake_history_week_template:
+      icon: mdi:clock-outline
+    sensor.xbox_jake_history_today_template:
+      icon: mdi:clock-outline
+    sensor.xbox_deuce_history_week_template:
+      icon: mdi:clock-outline
+    sensor.xbox_deuce_history_today_template:
+      icon: mdi:clock-outline
+    sensor.xbox_jake:
+      icon: custom:xbox
+      templates:
+        hs_color: >
+          if (state !== 'Offline') return [120,77,27];
+    sensor.xbox_deuce:
+      icon: custom:xbox
+      templates:
+        hs_color: >
+          if (state != 'Offline') return [120,77,27];
+
+sensor:
+### Xbox Live Status Sensors via xboxapi.com
+  - platform: xbox_live
+    api_key: !secret xbox_jake_api
+    xuid:
+      - !secret xbox_jake_id
+    scan_interval: 60
+
+  - platform: xbox_live
+    api_key: !secret xbox_deuce_api
+    xuid:
+      - !secret xbox_deuce_id
+    scan_interval: 60
+
+### Templates for Lovelace Online Status
+  - platform: template
+    sensors:
+      xbox_jake:
+        friendly_name: "Jake's Xbox Status"
+        value_template: '{% if is_state("sensor.uwil4me", "Offline") %}Offline{% else %}{{ states.sensor.uwil4me.attributes["XboxOne Full"] }}{% endif %}'
+
+      xbox_deuce:
+        friendly_name: "Deuce's Xbox Status"
+        value_template: '{% if is_state("sensor.dothedeuce11", "Offline") %}Offline{% else %}{{ states.sensor.dothedeuce11.attributes["XboxOne Full"] }}{% endif %}'
+
+### Template Sensor to pull game data for Deuce
+      xbox_deuce_game:
+        friendly_name: "Deuce's Xbox Game"
+        value_template: '{{ state_attr("sensor.dothedeuce11", "XboxOne Full") }}'
+
+### History Statistics Sensors for Xbox usage monitoring
+
+## Jake Week
+  - platform: history_stats
+    name: xbox jake history week
+    entity_id: sensor.uwil4me
+    state: 'Online'
+    type: time
+    start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+    end: '{{ now() }}'
+## Jake Today
+  - platform: history_stats
+    name: xbox jake history today
+    entity_id: sensor.uwil4me
+    state: 'Online'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+## Deuce Week
+  - platform: history_stats
+    name: xbox deuce history week
+    entity_id: sensor.dothedeuce11
+    state: 'Online'
+    type: time
+    start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+    end: '{{ now() }}'
+## Deuce Week
+  - platform: history_stats
+    name: xbox deuce history today
+    entity_id: sensor.dothedeuce11
+    state: 'Online'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+## Deuce Youtube Week
+  - platform: history_stats
+    name: xbox deuce youtube week
+    entity_id: sensor.xbox_deuce_game
+    state: 'YouTube'
+    type: time
+    start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+    end: '{{ now() }}'
+## Deuce Youtube Today
+  - platform: history_stats
+    name: xbox deuce youtube today
+    entity_id: sensor.xbox_deuce_game
+    state: 'YouTube'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+## Deuce Fortnite Week
+  - platform: history_stats
+    name: xbox deuce fortnite week
+    entity_id: sensor.xbox_deuce_game
+    state: 'Fortnite'
+    type: time
+    start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+    end: '{{ now() }}'
+## Deuce Fortnite Today
+  - platform: history_stats
+    name: xbox deuce fortnite today
+    entity_id: sensor.xbox_deuce_game
+    state: 'Fortnite'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+## Deuce FIFA Week
+  - platform: history_stats
+    name: xbox deuce fifa week
+    entity_id: sensor.xbox_deuce_game
+    state: 'EA SPORTS™ FIFA 20'
+    type: time
+    start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+    end: '{{ now() }}'
+## Deuce FIFA Today
+  - platform: history_stats
+    name: xbox deuce fifa today
+    entity_id: sensor.xbox_deuce_game
+    state: 'EA SPORTS™ FIFA 20'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+## Deuce Sea of Thieves Week
+  - platform: history_stats
+    name: xbox deuce seaofthieves week
+    entity_id: sensor.xbox_deuce_game
+    state: 'Sea of Thieves'
+    type: time
+    start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+    end: '{{ now() }}'
+## Deuce Sea of Thieves Today
+  - platform: history_stats
+    name: xbox deuce seaofthieves today
+    entity_id: sensor.xbox_deuce_game
+    state: 'Sea of Thieves'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+## Deuce ROBLOX Week
+  - platform: history_stats
+    name: xbox deuce seaofthieves week
+    entity_id: sensor.xbox_deuce_game
+    state: 'ROBLOX'
+    type: time
+    start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+    end: '{{ now() }}'
+## Deuce ROBLOX Today
+  - platform: history_stats
+    name: xbox deuce seaofthieves today
+    entity_id: sensor.xbox_deuce_game
+    state: 'ROBLOX'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+
+### Templates for friendly display of times
+
+## Deuce Week
+  - platform: template
+    sensors:
+      xbox_deuce_history_week_template:
+        friendly_name: Xbox Deuce History Week
+        value_template: >-
+          {% set time = states.sensor.xbox_deuce_history_week.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+## Deuce Today
+      xbox_deuce_history_today_template:
+        friendly_name: Xbox Deuce History Today
+        value_template: >-
+          {% set time = states.sensor.xbox_deuce_history_today.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+
+## Deuce Week Youtube
+  - platform: template
+    sensors:
+      xbox_deuce_youtube_week_template:
+        friendly_name: Xbox Deuce YouTube Week
+        value_template: >-
+          {% set time = states.sensor.xbox_deuce_youtube_week.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+## Deuce Today Youtube
+      xbox_deuce_youtube_today_template:
+        friendly_name: Xbox Deuce YouTube Today
+        value_template: >-
+          {% set time= states.sensor.xbox_deuce_youtube_today.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+
+## Deuce Week Fortnite
+  - platform: template
+    sensors:
+      xbox_deuce_fortnite_week_template:
+        friendly_name: Xbox Deuce Fortnite Week
+        value_template: >-
+          {% set time = states.sensor.xbox_deuce_fortnite_week.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+## Deuce Today Fortnite
+      xbox_deuce_fortnite_today_template:
+        friendly_name: Xbox Deuce Fortnite Today
+        value_template: >-
+          {% set time = states.sensor.xbox_deuce_fortnite_today.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+
+## Deuce Week FIFA
+  - platform: template
+    sensors:
+      xbox_deuce_fifa_week_template:
+        friendly_name: Xbox Deuce FIFA Week
+        value_template: >-
+          {% set time = states.sensor.xbox_deuce_fifa_week.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+## Deuce Today FIFA
+      xbox_deuce_fifa_today_template:
+        friendly_name: Xbox Deuce FIFA Today
+        value_template: >-
+          {% set time = states.sensor.xbox_deuce_fifa_today.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+
+## Deuce Week Sea of Thieves
+  - platform: template
+    sensors:
+      xbox_deuce_seaofthieves_week_template:
+        friendly_name: Xbox Deuce Sea of Thieves Week
+        value_template: >-
+          {% set time = states.sensor.xbox_deuce_seaofthieves_week.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+## Deuce Today Sea of Thieves
+      xbox_deuce_seaofthieves_today_template:
+        friendly_name: Xbox Deuce Sea of Thieves Today
+        value_template: >-
+          {% set time = states.sensor.xbox_deuce_seaofthieves_today.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+
+
+
+
+## Jake Week
+      xbox_jake_history_week_template:
+        friendly_name: Xbox Jake History Week
+        value_template: >-
+          {% set time = states.sensor.xbox_jake_history_week.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+## Jake Today
+      xbox_jake_history_today_template:
+        friendly_name: Xbox Jake History Today
+        value_template: >-
+          {% set time = states.sensor.xbox_jake_history_today.state | float %}
+          {% set hours = ((time) / 1) | int %}
+          {% set minutes = (((time) - (hours)) * 60) | float | round %}
+          {%- if time == 60 -%}
+            {{ time }} s
+          {%- else -%}
+              {%- if hours == 0 -%}
+              {%- elif hours == 1 -%}
+                1h
+              {%- else -%}
+                {{ hours }}hrs
+              {%- endif -%}
+            {%- if minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ' ' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                1min
+              {%- else -%}
+                {{ minutes }}min
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
